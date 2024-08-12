@@ -1,7 +1,7 @@
 # Documentação TP3
 
 Abra o terminal (ou prompt de comando) e execute:
-git clone https://github.com/usuario/[nome-do-repositorio].git
+git clone github.com/ usuario / nome-do-repositorio .git
 
 Navegue até o diretório do projeto:
 cd nome-do-repositorio
