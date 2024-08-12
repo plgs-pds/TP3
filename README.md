@@ -17,14 +17,12 @@ Não é necessário instalar o datetime manualmente, pois ele faz parte da bibli
 
 ## Executando o Servidor Flask
 
-Inicie o Servidor:
 No terminal, estando no diretório do projeto, execute:
 python server.py
 - Isso iniciará o servidor Flask localmente, geralmente em http://127.0.0.1:5000/.
 
 ## Executando o Cliente
 
-Inicie o Cliente:
 Em outro terminal ou prompt de comando, execute o cliente.
 python client.py
 O cliente irá se comunicar com o servidor através das requisições HTTP.
@@ -32,6 +30,7 @@ O cliente irá se comunicar com o servidor através das requisições HTTP.
 ## Solução de Problemas
 Problema: Módulo datetime não reconhecido.
 Solução: Verifique se o Python 3.x está instalado corretamente e se o código de importação (from datetime import datetime) está correto.
+
 Problema: Flask não instalado.
 Solução: Execute pip install Flask para instalar o Flask manualmente.
 
