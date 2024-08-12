@@ -1,33 +1,28 @@
-import socket
+import requests
 import json
 
-def send_data_to_server(data):
-    server_address = ('[::1]', 5000)  # Endereço IPv6 do servidor (localhost)
+# Função para carregar dados de um arquivo .txt
+def load_data_from_txt(file_path):
+    with open(file_path, 'r') as file:
+        data = file.read()
+        # Convertendo os dados do arquivo de texto para um formato JSON
+        json_data = json.loads(data)
+    return json_data
 
-    # Criação do socket
-    sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-    sock.connect(server_address)
+# Caminho para o arquivo .txt que contém os dados
+file_path = 'dados_jogo.txt'
 
-    try:
-        # Envio de dados para o servidor
-        sock.sendall(data.encode('utf-8'))
+# Carregando os dados do arquivo
+data = load_data_from_txt(file_path)
 
-        # Recebendo a resposta
-        response = sock.recv(4096).decode('utf-8')
-        print("Resposta do servidor:", response)
+# Converta os dados para JSON (se necessário)
+json_data = json.dumps(data)
 
-    finally:
-        sock.close()
+# Endereço IPv6 do servidor (substitua pelo endereço real do servidor)
+server_address = 'http://[::1]:5000/analyze'
 
-def main():
-    data = '''
-    [
-        {"last_turn": 272, "tstamp_auth_start": 1713369153.8624742, "servers_authenticated": [1, 2, 3, 4], "tstamp_auth_completion": 1713369173.8847864, "getcannons_received": 8, "cannons": [[3, 1], [1, 1], [8, 3], [3, 3], [7, 2], [2, 2], [3, 2], [6, 3]], "getturn_received": 1089, "ship_moves": 4438, "shot_received": 1546, "valid_shots": 1546, "sunk_ships": 716, "escaped_ships": 312, "remaining_life_on_escaped_ships": 491, "tstamp_completion": 1713369232.3878376, "auth": "ifs4:1:2c3bb3f0e946a1afde7d9d0c8c818762a6189e842abd8aaaf85c9faac5b784d2+ifs4:2:cf87a60a90159078acecca4415c0331939ebb28ac5528322ac03d7c26b140b98+e51d06a4174b5385c8daff714827b4b4cb4f93ff1b83af86defee3878c2ae90f", "id": 1},
-        {"last_turn": 272, "tstamp_auth_start": 1713369153.8624742, "servers_authenticated": [1, 2, 3, 4], "tstamp_auth_completion": 1713369173.8847864, "getcannons_received": 8, "cannons": [[3, 1], [1, 1], [8, 3], [3, 3], [7, 2], [2, 2], [3, 2], [6, 3]], "getturn_received": 1090, "ship_moves": 4438, "shot_received": 1546, "valid_shots": 1546, "sunk_ships": 716, "escaped_ships": 312, "remaining_life_on_escaped_ships": 491, "tstamp_completion": 1713369232.394351, "auth": "ifs4:1:2c3bb3f0e946a1afde7d9d0c8c818762a6189e842abd8aaaf85c9faac5b784d2+ifs4:2:cf87a60a90159078acecca4415c0331939ebb28ac5528322ac03d7c26b140b98+e51d06a4174b5385c8daff714827b4b4cb4f93ff1b83af86defee3878c2ae90f", "id": 2}
-    ]
-    '''
-    
-    send_data_to_server(data)
+# Enviar para o servidor
+response = requests.post(server_address, data=json_data, headers={'Content-Type': 'application/json'})
 
-if __name__ == "__main__":
-    main()
+# Imprimir a resposta do servidor
+print(response.json())
